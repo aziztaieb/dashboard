@@ -11,7 +11,6 @@ class HelpScout:
         The connection with the HelpScout API.
         """
 
-        # get the helpscout config parameters
 
         self.data = {
         'grant_type': 'client_credentials',
@@ -23,7 +22,12 @@ class HelpScout:
 
         self.headers = {'Authorization': 'Bearer {}'.format(self.token.json()['access_token'])}
 
+
     def get_helpscout_data(self, url,  start='', end=''):
+        """
+        request data from HelpScout API
+        """
+
 
         params = {
             'start': '{}T00:00:00Z'.format(start),

@@ -5,29 +5,22 @@ FIELD = 'field'
 
 
 CONV_MAP = {
-    'subject': RECORD,
     'status': FIELD,
     'state': RECORD,
     'type': RECORD,
-    'threads': RECORD,
     'userUpdatedAt': RECORD,
     'assignee': RECORD,
     'createdAt': RECORD,
-    'customFields': RECORD,
     'customerWaitingSince': RECORD,
-    'number': RECORD,
     'mailboxId': RECORD,
     'closedBy': RECORD,
     'id': FIELD,
     'createdBy': RECORD,
     'closedAt': RECORD,
     'tags': FIELD,
-    'bcc': RECORD,
-    'preview': RECORD,
-    'source': RECORD,
-    'cc': RECORD,
     'folderId': RECORD,
-    'primaryCustomer': RECORD
+    'primaryCustomer': RECORD,
+    'closedByUser': RECORD
 }
 
 
@@ -56,6 +49,13 @@ USERS_MAP = {
 TAGS_MAP= {
     
     'name': FIELD,
-    'ticketCount': FIELD,
+    'ticketCount': FIELD
 
+}
+
+USERS_MAP = {
+    
+    'firstName': FIELD,
+    'role': FIELD,
+    
 }

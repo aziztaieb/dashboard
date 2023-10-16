@@ -1,10 +1,11 @@
 import pprint
 import datetime as dt
-from .access_token import HelpScout
-from .map import RECORD, \
+from access_token import HelpScout
+from map import RECORD, \
                 FIELD, \
                 MAILBOXES_MAP, \
                 CONV_MAP, \
+                USERS_MAP, \
                 TAGS_MAP
 
 URL_MAIN = 'https://api.helpscout.net/v2/'
@@ -25,8 +26,8 @@ class HelpScoutMethods:
                 self.end.strftime('%Y-%m-%d')
             )
 
-        self.url_mailboxes = URL_MAIN + 'mailboxes'
-    
+
+
     @staticmethod
     def generate_json(l,mapping):
         
@@ -44,10 +45,14 @@ class HelpScoutMethods:
                     pass
         return results
     
+
+
     def filter(self, d, keys):
         'filter: remove specific keys'
         return {x: d[x] for x in d if x not in keys}
     
+
+
     def customers(self):
 
         url_customers = URL_MAIN + 'customers'
@@ -55,7 +60,9 @@ class HelpScoutMethods:
         data = data['_embedded']['customers']        
         
         return data
-    
+
+
+
     def mailboxes(self):
 
         mailbox_list = self.helpscout_obj.get_helpscout_data(url=self.url_mailboxes)['_embedded']['mailboxes']
@@ -70,11 +77,12 @@ class HelpScoutMethods:
             d.append(results)
         return d
     
+
+
     def conversations(self):
 
         url_conversations = URL_MAIN + 'conversations' + STATUS_ALL + self.query
         conversation_list = self.helpscout_obj.get_helpscout_data(url=url_conversations)['_embedded']['conversations']
-        print(conversation_list)
         d = list()
 
         for j in range(len(conversation_list)):
@@ -84,14 +92,18 @@ class HelpScoutMethods:
             
         return d
     
-    def search(self, data, term):
+
+
+    def count(self, data, location, term):
         count = 0
 
         for conversation in data:
-           if 'status' in conversation and conversation['status'][0] == term:
+           if 'status' in conversation and conversation[location][0] == term:
                count += 1
 
         return count
+
+
 
     def tags(self):
 
@@ -109,6 +121,23 @@ class HelpScoutMethods:
         return data
     
 
-source= HelpScoutMethods('2023-09-20','2023-10-09')
+
+    def users(self):
+        """
+        The method for getting data from the 'users' HelpScout endpoint
+        :return: list of dictionaries with the users data
+        """
+
+        user_list = self.helpscout_obj.get_helpscout_data(url=URL_MAIN + 'users')['_embedded']['users']
+        d = list()
+
+        for j in user_list:
+          username = j['firstName']
+          d.append(username)
+        return d
+
+                   
+source=HelpScoutMethods('2023-10-01','2023-10-14')
 data=source.conversations()
+pprint.PrettyPrinter(width=10).pprint(data)
 
